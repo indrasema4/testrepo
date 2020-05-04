@@ -3,7 +3,7 @@
     "containerDefinitions": [
         {
             "name": "west-onetest-vistaweb",
-            "image": "<IMAGE1_NAME>",
+            "image": "921279086507.dkr.ecr.us-east-1.amazonaws.com/vistaweb-ecr",
             "essential": true,
             "portMappings": [
                 {
