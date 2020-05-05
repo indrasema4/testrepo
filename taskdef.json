@@ -12,6 +12,11 @@
                     "containerPort": 80
                 }
             ]
+            "environment": [
+                 { NGINX_PORT:8080 }
+              ]
+               
+         
         }
     ],
     "networkMode": "awsvpc",
