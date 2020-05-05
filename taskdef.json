@@ -13,8 +13,8 @@
                 }
             ],
             "environment": [
-                 { "Name":"NGINX_PORT",
-                   "Value":8080 
+                 { "name":"NGINX_PORT",
+                   "value":8080 
                  }
               ]
                
