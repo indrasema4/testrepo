@@ -2,6 +2,7 @@ from aws_cdk import (core, aws_codebuild as codebuild,
                      aws_codecommit as codecommit,
                      aws_codepipeline as codepipeline,
                      aws_codepipeline_actions as codepipeline_actions,
+                     aws_secretsmanager as secret,
                      aws_lambda as lambda_, aws_s3 as s3)
 
 class PipelineStack(core.Stack):
@@ -11,7 +12,9 @@ class PipelineStack(core.Stack):
         super().__init__(scope, id, **kwargs)
 
 
-
+        secret_arn='arn:aws:secretsmanager:us-east-1:417302553802:secret:indrahrpkey-Eg83NU'
+        sec=secret.Secret.from_secret_arn(self,'secret',secret_arn)
+        sv=sec.secret_value_from_json("github")
 
 
         cdk_build = codebuild.PipelineProject(self, "CdkBuild",
@@ -61,7 +64,7 @@ class PipelineStack(core.Stack):
             action_name="GitHub",
             output=source_output,
             repo='testrepo',
-            #oauth_token=sv,
+            oauth_token=sv,
             owner='indrasema4'
         )
 
