@@ -11,7 +11,7 @@ class PipelineStack(core.Stack):
         super().__init__(scope, id, **kwargs)
 
 
-        sv=core.SecretValue('cac48b8d636457bb7a300e308c5133e0af0d056f')
+
 
 
         cdk_build = codebuild.PipelineProject(self, "CdkBuild",
@@ -61,7 +61,7 @@ class PipelineStack(core.Stack):
             action_name="GitHub",
             output=source_output,
             repo='testrepo',
-            oauth_token=sv,
+            #oauth_token=sv,
             owner='indrasema4'
         )
 
