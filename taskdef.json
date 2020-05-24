@@ -1,5 +1,5 @@
 {
-    "executionRoleArn": "arn:aws:iam::417302553802:role/wes-vistatwonodes-westonetesttaskvistawebTaskRoleD-1V1GRVSNG06NJ",
+    "executionRoleArn": "arn:aws:iam::417302553802:role/wes-vista2-westonetesttaskvistawebTaskRoleDFBF3ED6-1ENGUO9RORI0Y",
     "containerDefinitions": [
         {
             "name": "west-onetest-vistaweb",
