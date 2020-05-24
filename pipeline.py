@@ -97,9 +97,9 @@ image_input=codepipeline_actions.CodeDeployEcsContainerImageInput(input=synthesi
 #ecs_deploy_artifact.at_path("appspec.yaml")
 #ecs_deploy_artifact.at_path("taskdef.json")
 #deploy_group='vistatwonodes-deployment-group'
-deploy_group='vistebluegreen'
+deploy_group='DgpECS-wes-vista2-wesonetestecs58103E9B-OgBZInokvVQg-testecs'
 #app_name='vistatwonodes'
-app_name='vista2'
+app_name='AppECS-wes-vista2-wesonetestecs58103E9B-OgBZInokvVQg-testecs'
 #ecs_action=codepipeline_actions.CodeDeployEcsDeployAction(deployment_group=deployment_group,app_spec_template_input='appspec.yaml',task_definition_template_file='taskdef.json',action_name='deploy_bluegreen_ECS')
 
 
