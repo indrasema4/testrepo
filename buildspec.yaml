@@ -28,7 +28,7 @@ phases:
       - echo Entered the post_build phase...
       - echo Build completed on `date`
       - cdk synth PipelineStack -o .
-artifacts:                                                 "
+artifacts:                               
   files:
     - '**/*'
     
