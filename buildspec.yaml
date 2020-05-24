@@ -8,7 +8,7 @@ phases:
   pre_build:
     commands:
       - echo 'copying file'
-      - npm install -g aws-cdk"
+      - npm install -g aws-cdk
       - pip install aws-cdk.aws-codepipeline
       - pip install aws-cdk.core
       - pip install aws-cdk.aws-codepipeline_actions
