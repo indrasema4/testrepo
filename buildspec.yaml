@@ -1,18 +1,33 @@
 version: 0.2
 
 phases:
-
+  
   install:
     runtime-versions:
       nodejs: 8
   pre_build:
     commands:
       - echo 'copying file'
+      - npm install -g aws-cdk
+      - pip install aws-cdk.aws-codepipeline
+      - pip install aws-cdk.core
+      - pip install aws-cdk.aws-codepipeline_actions
+      - pip install aws-cdk.aws_secretsmanager
+      - pip install aws-cdk.aws_lambda
+      - pip install aws-cdk.aws_codebuild
+      - pip install aws-cdk.aws_codedeploy
+      - pip install aws-cdk.app_delivery
+      - pip install aws-cdk.aws_iam
+      - pip install aws-cdk.aws_ecs
+
+
+
 
   build:
     commands:
       - echo Entered the post_build phase...
       - echo Build completed on `date`
+      - cdk synth PipelineStack 
 artifacts:
   files:
     - '**/*'
