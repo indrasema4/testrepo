@@ -51,25 +51,45 @@ source = codepipeline_actions.GitHubSourceAction(
     oauth_token=sv,
     owner='indrasema4'
 )
-pipeline.add_stage(
-    stage_name="source",
-    actions=[source]
+source_vista=codepipeline_actions.GitHubSourceAction(
+    action_name="GitHub",
+    output=source_output,
+    repo='s4-sdrd-vista-deployment',
+    oauth_token=sv,
+    owner='sema4genomics'
 )
 
+pipeline.add_stage(
+    stage_name="source",
+    actions=[source,source_vista]
+)
+
+
+
 project = codebuild.PipelineProject(pipeline_stack, "CodeBuild")
+project_vista = codebuild.PipelineProject(pipeline_stack, "CodeBuildVista")
+
 
 
 
 synthesized_app = codepipeline.Artifact('codebuild_artifact')
+synthesized_app_vista = codepipeline.Artifact('codebuild_artifact_vista')
 build_action = codepipeline_actions.CodeBuildAction(
     action_name="CodeBuild",
     project=project,
     input=source_output,
     outputs=[synthesized_app]
 )
+
+build_action_vista = codepipeline_actions.CodeBuildAction(
+    action_name="CodeBuildVista",
+    project=project_vista,
+    input=source_output,
+    outputs=[synthesized_app_vista]
+)
 build_stage=pipeline.add_stage(
     stage_name="build",
-    actions=[build_action]
+    actions=[build_action,build_action_vista]
 )
 print ("buildaction type ",type(build_action))
 
