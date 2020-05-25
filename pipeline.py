@@ -44,6 +44,7 @@ pipeline = codepipeline.Pipeline(pipeline_stack, "CodePipeline",
 
 # Configure the CodePipeline source - where your CDK App's source code is hosted
 source_output = codepipeline.Artifact()
+source_output_vista = codepipeline.Artifact()
 source = codepipeline_actions.GitHubSourceAction(
     action_name="GitHub",
     output=source_output,
@@ -52,8 +53,8 @@ source = codepipeline_actions.GitHubSourceAction(
     owner='indrasema4'
 )
 source_vista=codepipeline_actions.GitHubSourceAction(
-    action_name="GitHub",
-    output=source_output,
+    action_name="GitHubVista",
+    output=source_output_vista,
     repo='s4-sdrd-vista-deployment',
     oauth_token=sv,
     owner='sema4genomics'
@@ -84,7 +85,7 @@ build_action = codepipeline_actions.CodeBuildAction(
 build_action_vista = codepipeline_actions.CodeBuildAction(
     action_name="CodeBuildVista",
     project=project_vista,
-    input=source_output,
+    input=source_output_vista,
     outputs=[synthesized_app_vista]
 )
 build_stage=pipeline.add_stage(
