@@ -1,5 +1,5 @@
 from aws_cdk import (core, aws_codebuild as codebuild,
-                     aws_codecommit as codecommit,
+
                      aws_codepipeline as codepipeline,
                      aws_codepipeline_actions as codepipeline_actions,
                      aws_secretsmanager as secret,
@@ -24,11 +24,22 @@ class PipelineStack(core.Stack):
                                                       install=dict(
                                                           runtime="versions=nodejs:  8",
 
-                                                          commands="npm install -g aws-cdk"),
+                                                          commands=["npm install -g aws-cdk",
+                                                                    "pip install aws-cdk.aws-codepipeline",
+                                                                    "pip install aws-cdk.core",
+                                                                    "pip install aws-cdk.aws-codepipeline_actions",
+                                                                    "pip install aws-cdk.aws_secretsmanager",
+                                                                    "pip install aws-cdk.aws_lambda",
+                                                                    "pip install aws-cdk.aws_codebuild",
+                                                                    "pip install aws-cdk.aws_codedeploy",
+                                                                    "pip install aws_cdk.app_delivery"
+                                                            ]
+
+                                                                    ),
 
                                                       build=dict(commands=[
                                                           "npm install -g aws-cdk",
-                                                          "cdk synth -- -o dist"])),
+                                                          "cdk synth PipelineDeployingLambdaStack -o dist"])),
                                                   artifacts={
                                                       "base-directory": "dist",
                                                       "files": [
@@ -42,15 +53,15 @@ class PipelineStack(core.Stack):
                                                      phases=dict(
                                                          install=dict(
                                                              commands=[
-                                                                 "cd lambda",
-                                                                 "npm install"]),
+                                                                 "echo 'install' ",
+                                                                 ]),
                                                          build=dict(
-                                                             commands="npm run build")),
+                                                             commands="cd lambda")),
                                                      artifacts={
                                                          "base-directory": "lambda",
                                                          "files": [
                                                              "index.js",
-                                                             "node_modules/**/*"]},
+                                                             ]},
                                                      environment=dict(buildImage=
                                                                       codebuild.LinuxBuildImage.STANDARD_2_0))))
 
