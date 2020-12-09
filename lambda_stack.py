@@ -14,7 +14,7 @@ class LambdaStack(core.Stack):
 
         version = func.latest_version
         alias = lambda_.Alias(self, "LambdaAlias",
-                              alias_name="Prod", version=version)
+                              alias_name="Baru", version=version)
 
         codedeploy.LambdaDeploymentGroup(self, "DeploymentGroup",
                                          alias=alias,
