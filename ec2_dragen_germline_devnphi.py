@@ -35,7 +35,7 @@ def main():
     #Account_Session.initialize()
     parser = argparse.ArgumentParser()
     parser.add_argument('--dragen_terminate_ec2',action="store_true", required=False,
-                        help='--dragen_terminate_ec2')
+                        help='--terminate ec2 dragen')
 
     parser.add_argument('--dragen_create_ec2', action="store_true", required=False,
                         help='--dragen_create_ec2')
@@ -52,7 +52,7 @@ def main():
         #print "in aotherremoving deploylist"
     elif args.dragen_create_ec2:
         #print "removing deploylist"
-       create_ec2()
+        create_ec2()
     elif args.dragen_status_ec2:
         #print "removing deploylist"
         find_ec2()
@@ -103,18 +103,18 @@ def create_ec2():
         SubnetId=subnet_id,
         KeyName=key_name,
         TagSpecifications=[{
-                            'ResourceType':'instance',
-                            'Tags':
-                                [
-                                    {'Key':tag_name,
-                                       'Value':tag_name_value}
-                                ]
+            'ResourceType':'instance',
+            'Tags':
+                [
+                    {'Key':tag_name,
+                     'Value':tag_name_value}
+                ]
         }
         ]
 
 
 
-)
+    )
 
 def find_ec2():
     instance_list=[]
@@ -122,9 +122,9 @@ def find_ec2():
     response=ec2_cl.describe_instances(
         Filters=[
             {
-             'Name':'tag:' + tag_name,
-             'Values':[tag_name_value]
-             }
+                'Name':'tag:' + tag_name,
+                'Values':[tag_name_value]
+            }
 
         ]
     )
@@ -150,7 +150,7 @@ def action_ec2(action='nothing'):
     ec2_term_list=find_ec2()
     #print '\n\n\nec2 etrm ' + str(ec2_term)
     for inst in ec2_term_list:
-    #tag_attached=[ (itm['Key'],itm['Value']) for  itm in  ec2_term['Tags'] if itm['Key'] == tag_name ]
+        #tag_attached=[ (itm['Key'],itm['Value']) for  itm in  ec2_term['Tags'] if itm['Key'] == tag_name ]
         if action == 'terminate':
             print("this instance Id " +  inst[0] + ' With Tag ' + str(inst[1]) + ' will be terminated ')
             yn=input("type YES to terminate ")
@@ -160,10 +160,10 @@ def action_ec2(action='nothing'):
                         inst[0]
                     ]
                 )
-                print "terminating ..."
+                print("terminating ...")
                 time.sleep(15)
 
-                print  inst[0]  + ' termination state ' + response ['TerminatingInstances'][0]['CurrentState']['Name']
+                print(inst[0]  + ' termination state ' + response ['TerminatingInstances'][0]['CurrentState']['Name'])
         elif action == 'stop':
 
             print("this instance Id " +  inst[0] + ' With Tag ' + str(inst[1]) + ' will be shutdown ')
@@ -180,20 +180,25 @@ def action_ec2(action='nothing'):
                 print("shutting down ...")
                 time.sleep(15)
 
-                print  inst[0]  + ' state ' + response ['StoppingInstances'][0]['CurrentState']['Name']
-        elif action == 'start':
-            print "this instance Id " +  inst[0] + ' With Tag ' + str(inst[1]) + ' will be started '
-            yn=raw_input("type YES to start ")
-            if yn == 'YES':
-                response = ec2_cl.start_instances(
-                    InstanceIds=[
-                        inst[0]
-                    ]
-                )
-                print "Starting Up ..."
-                time.sleep(15)
+                print(inst[0]  + ' state ' + response ['StoppingInstances'][0]['CurrentState']['Name'])
+                printelif action == 'start':
 
-                print  inst[0]  + ' state ' + response ['StartingInstances'][0]['CurrentState']['Name']
+("this instance Id " +  inst[0] + ' With Tag ' + str(inst[1]) + ' will be started ')
+yn=input("type YES to start ")
+
+if yn == 'YES':
+    if inst[2] != 'stopped':
+        print("this instance " + inst[0] + " is not in stopped state, starting up is not performed")
+        exit(0)
+    response = ec2_cl.start_instances(
+        InstanceIds=[
+            inst[0]
+        ]
+    )
+    print("Starting Up ...")
+    time.sleep(15)
+
+    print(inst[0]  + ' state ' + response ['StartingInstances'][0]['CurrentState']['Name'])
 
 
 

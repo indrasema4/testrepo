@@ -179,9 +179,9 @@ def action_ec2(action='nothing'):
                 time.sleep(15)
 
                 print(inst[0]  + ' state ' + response ['StoppingInstances'][0]['CurrentState']['Name'])
-        elif action == 'start':
+                printelif action == 'start':
 
-            print("this instance Id " +  inst[0] + ' With Tag ' + str(inst[1]) + ' will be started ')
+("this instance Id " +  inst[0] + ' With Tag ' + str(inst[1]) + ' will be started ')
             yn=input("type YES to start ")
 
             if yn == 'YES':
