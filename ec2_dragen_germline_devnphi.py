@@ -1,11 +1,11 @@
-
+#!/usr/bin/env python3
 import os
 import json
 import logging
 import argparse
 import boto3
 import botocore
-import urllib2
+#import urllib2
 import botocore
 import sys
 import time
@@ -21,13 +21,14 @@ image_id='ami-0be2609ba883822ec'
 instance_type='t2.micro'
 security_group_ids=['sg-0f1619fec991ca173']
 subnet_id='subnet-0827b39956a5379ac'
-key_name='dragen'
+key_name='dragen-germline-nphi'
 tag_name='dragen_ec2'
 tag_name_value='germline_dragen'
 #account_id='386451404987'
 ec2=boto3.resource('ec2')
 ec2_cl=boto3.client('ec2')
-
+eip_alloc='eipalloc-046af9df7fabd32c4'  #35.173.106.106
+pub_ip='35.173.106.106'
 
 
 
@@ -108,6 +109,8 @@ def create_ec2():
             'Tags':
                 [
                     {'Key':tag_name,
+                     'Value':tag_name_value},
+                    {'Key':'Name',
                      'Value':tag_name_value}
                 ]
         }
@@ -116,6 +119,13 @@ def create_ec2():
 
 
     )
+    print("associating public IP ...  ",pub_ip)
+    time.sleep(60)
+
+    ec2_cl.associate_address(
+        InstanceId = instance[0].id,
+        AllocationId = eip_alloc)
+
 
 def find_ec2():
     instance_list=[]
