@@ -30,6 +30,7 @@ ec2_cl=boto3.client('ec2')
 
 
 
+
 def main():
     ##python  deploy_cf.py --name test --templatefile Sema4-ITAdmin_Role.yaml --params "BucketName=s4-research-sanofi-dev&ITLambda=ITAdmin_Libraries"
     #Account_Session.initialize()
@@ -181,24 +182,24 @@ def action_ec2(action='nothing'):
                 time.sleep(15)
 
                 print(inst[0]  + ' state ' + response ['StoppingInstances'][0]['CurrentState']['Name'])
-                printelif action == 'start':
+        elif action == 'start':
 
-("this instance Id " +  inst[0] + ' With Tag ' + str(inst[1]) + ' will be started ')
-yn=input("type YES to start ")
+            print("this instance Id " +  inst[0] + ' With Tag ' + str(inst[1]) + ' will be started ')
+            yn=input("type YES to start ")
 
-if yn == 'YES':
-    if inst[2] != 'stopped':
-        print("this instance " + inst[0] + " is not in stopped state, starting up is not performed")
-        exit(0)
-    response = ec2_cl.start_instances(
-        InstanceIds=[
-            inst[0]
-        ]
-    )
-    print("Starting Up ...")
-    time.sleep(15)
+            if yn == 'YES':
+                if inst[2] != 'stopped':
+                    print("this instance " + inst[0] + " is not in stopped state, starting up is not performed")
+                    exit(0)
+                response = ec2_cl.start_instances(
+                    InstanceIds=[
+                        inst[0]
+                    ]
+                )
+                print("Starting Up ...")
+                time.sleep(15)
 
-    print(inst[0]  + ' state ' + response ['StartingInstances'][0]['CurrentState']['Name'])
+                print(inst[0]  + ' state ' + response ['StartingInstances'][0]['CurrentState']['Name'])
 
 
 

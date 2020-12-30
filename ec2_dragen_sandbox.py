@@ -5,7 +5,7 @@ import logging
 import argparse
 import boto3
 import botocore
-import urllib.request, urllib.error, urllib.parse
+#import urllib.request, urllib.error, urllib.parse
 import botocore
 import sys
 import time
@@ -179,9 +179,9 @@ def action_ec2(action='nothing'):
                 time.sleep(15)
 
                 print(inst[0]  + ' state ' + response ['StoppingInstances'][0]['CurrentState']['Name'])
-                printelif action == 'start':
+        elif action == 'start':
 
-("this instance Id " +  inst[0] + ' With Tag ' + str(inst[1]) + ' will be started ')
+            print("this instance Id " +  inst[0] + ' With Tag ' + str(inst[1]) + ' will be started ')
             yn=input("type YES to start ")
 
             if yn == 'YES':
