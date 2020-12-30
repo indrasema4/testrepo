@@ -15,10 +15,19 @@ import signal
 
 
 account_id='386451404987'
+
 #image_id='ami-0e33c66ac96a8bee4'
 #instance_type='f1.2xlarge'
+#eip_alloc='eipalloc-046af9df7fabd32c4'  #35.173.106.106
+#pub_ip='35.173.106.106'
+
 image_id='ami-0be2609ba883822ec'
 instance_type='t2.micro'
+eip_alloc='eipalloc-01d8b13a6f616b54f' #54.235.151.79
+pub_ip='54.235.151.79'
+
+#iam_role='arn:aws:iam::386451404987:role/dragen_role'
+iam_role='dragen_role'
 security_group_ids=['sg-0f1619fec991ca173']
 subnet_id='subnet-0827b39956a5379ac'
 key_name='dragen-germline-nphi'
@@ -27,8 +36,7 @@ tag_name_value='germline_dragen'
 #account_id='386451404987'
 ec2=boto3.resource('ec2')
 ec2_cl=boto3.client('ec2')
-eip_alloc='eipalloc-046af9df7fabd32c4'  #35.173.106.106
-pub_ip='35.173.106.106'
+
 
 
 
@@ -102,6 +110,7 @@ def create_ec2():
         MaxCount=1,
         MinCount=1,
         SecurityGroupIds=security_group_ids,
+        IamInstanceProfile={'Name':iam_role},
         SubnetId=subnet_id,
         KeyName=key_name,
         TagSpecifications=[{
