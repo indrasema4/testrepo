@@ -5,12 +5,12 @@ import logging
 import argparse
 import boto3
 import botocore
-import urllib.request, urllib.error, urllib.parse
+import urllib2
 import botocore
 import sys
 import time
 import signal
-
+from __future__ import print_function
 
 
 
@@ -33,7 +33,7 @@ def main():
     #Account_Session.initialize()
     parser = argparse.ArgumentParser()
     parser.add_argument('--dragen_terminate_ec2',action="store_true", required=False,
-                        help='--terminate ec2 dragen')
+                        help='--dragen_terminate_ec2')
 
     parser.add_argument('--dragen_create_ec2', action="store_true", required=False,
                         help='--dragen_create_ec2')
@@ -137,7 +137,7 @@ def find_ec2():
         ##print "the instance " + str(tag_attached) + ' With Instance Id : ' +  resp_item + ' Launch Time ' + str(resp_item['LaunchTime']) +  \
         ##' status is  ' + resp_item['State']['Name']
 
-        print("the instance with Id : " +   resp_item['InstanceId'] + ' with tag ' + str(tag_attached) + ' Launch Time ' + str(resp_item['LaunchTime']) + ' status is  ' + resp_item['State']['Name'])
+        print "the instance with Id : " +   resp_item['InstanceId'] + ' with tag ' + str(tag_attached) + ' Launch Time ' + str(resp_item['LaunchTime']) + ' status is  ' + resp_item['State']['Name']
         instance_list.append( [resp_item['InstanceId'],tag_attached,resp_item['State']['Name']])
 
         #print "\n\n\n " + str(resp_item)
@@ -150,53 +150,53 @@ def action_ec2(action='nothing'):
     for inst in ec2_term_list:
     #tag_attached=[ (itm['Key'],itm['Value']) for  itm in  ec2_term['Tags'] if itm['Key'] == tag_name ]
         if action == 'terminate':
-            print("this instance Id " +  inst[0] + ' With Tag ' + str(inst[1]) + ' will be terminated ')
-            yn=input("type YES to terminate ")
+            print "this instance Id " +  inst[0] + ' With Tag ' + str(inst[1]) + ' will be terminated '
+            yn=raw_input("type YES to terminate ")
             if yn == 'YES':
                 response = ec2_cl.terminate_instances(
                     InstanceIds=[
                         inst[0]
                     ]
                 )
-                print("terminating ...")
+                print "terminating ..."
                 time.sleep(15)
 
-                print(inst[0]  + ' termination state ' + response ['TerminatingInstances'][0]['CurrentState']['Name'])
+                print  inst[0]  + ' termination state ' + response ['TerminatingInstances'][0]['CurrentState']['Name']
         elif action == 'stop':
 
-            print("this instance Id " +  inst[0] + ' With Tag ' + str(inst[1]) + ' will be shutdown ')
-            yn=input("type YES to shutdown ")
+            print "this instance Id " +  inst[0] + ' With Tag ' + str(inst[1]) + ' will be shutdown '
+            yn=raw_input("type YES to shutdown ")
             if yn == 'YES':
                 if inst[2] != 'running':
-                    print("this instance " + inst[0] + " is not in running state, stop is  not performed")
+                    print "this instance " + inst[0] + " is not in running state, stop is  not performed"
                     exit(0)
                 response = ec2_cl.stop_instances(
                     InstanceIds=[
                         inst[0]
                     ]
                 )
-                print("shutting down ...")
+                print "shutting down ..."
                 time.sleep(15)
 
-                print(inst[0]  + ' state ' + response ['StoppingInstances'][0]['CurrentState']['Name'])
+                print  inst[0]  + ' state ' + response ['StoppingInstances'][0]['CurrentState']['Name']
         elif action == 'start':
 
-            print("this instance Id " +  inst[0] + ' With Tag ' + str(inst[1]) + ' will be started ')
-            yn=input("type YES to start ")
+            print "this instance Id " +  inst[0] + ' With Tag ' + str(inst[1]) + ' will be started '
+            yn=raw_input("type YES to start ")
 
             if yn == 'YES':
                 if inst[2] != 'stopped':
-                    print("this instance " + inst[0] + " is not in stopped state, starting up is not performed")
+                    print "this instance " + inst[0] + " is not in stopped state, starting up is not performed"
                     exit(0)
                 response = ec2_cl.start_instances(
                 InstanceIds=[
                     inst[0]
                 ]
                 )
-                print("Starting Up ...")
+                print "Starting Up ..."
                 time.sleep(15)
 
-                print(inst[0]  + ' state ' + response ['StartingInstances'][0]['CurrentState']['Name'])
+                print  inst[0]  + ' state ' + response ['StartingInstances'][0]['CurrentState']['Name']
 
 
 
